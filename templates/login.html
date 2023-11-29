@@ -1,0 +1,89 @@
+{% extends "layout.html" %}
+
+{% block style %}
+
+body {
+
+    font-family: Arial;
+}
+
+.nav {
+    padding: 5px 70px;
+    background-color: grey;
+    display: block;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-control {
+    width: 250px;
+}
+
+.nav__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.nav__logo {
+    font-size: 64px;
+    font-weight: bold;
+}
+.nav__options {
+    font-size: 34px;
+    display:flex;
+    gap: 20px;
+}
+
+.nav__link-menu {
+    text-decoration: none;
+    color: black;
+}
+
+.nav__options a{
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all .2s ease-in;
+}
+
+.nav__options a:hover{
+    color: #0d6efd;
+}
+
+.login__form {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+.login__input {
+}
+.login__submit {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+{% endblock%}
+
+{% block body %}
+    <nav class="nav">
+        <div class="nav__row">
+            <div class="nav__logo"><a class="nav__link-menu" href="/">Finan<span style="color: green;">$</span>e</a></div>
+            <div class="nav__options">
+                <a href="/register">Register</a>
+                <a href="/login">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="login__form">
+            <form class="form" action="/login" method="post">
+                <input class="login__input form-control" type="text" name="username" placeholder="Username">
+                <input class="login__input form-control" type="password" name="password" placeholder="Password">
+                <button class="login__submit btn btn-primary" type="submit">Log In</button>
+            </form>
+    </div>
+{% endblock%}

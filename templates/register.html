@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+
+
+{% block body %}
+    <nav class="nav">
+        <div class="nav__row">
+            <div class="nav__logo"><a class="nav__link-menu"  href="/">Finan<span style="color: green;">$</span>e</a></div>
+            <div class="nav__options">
+                <a href="/register">Register</a>
+                <a href="/login">Log In</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="login__form">
+            <form class="form" action="/register" method="post">
+                <h1>Register</h1>
+                <input class="login__input form-control" type="text" name="username" placeholder="Username">
+                <input class="login__input form-control" type="password" name="reg-password1" placeholder="Password">
+                <input class="login__input form-control" type="password" name="reg-password2" placeholder="Password (again)">
+                <button class="login__submit btn btn-primary" type="submit">Register</button>
+            </form>
+    </div>
+{% endblock%}

@@ -1,0 +1,19 @@
+{% extends "layout.html"%}
+
+{% block body%}
+
+<nav class="nav">
+    <div class="nav__row">
+        <div class="nav__logo"><a class="nav__link-menu"  href="/">Finan<span style="color: green;">$</span>e</a></div>
+        <div class="nav__options">
+            <a href="/register">Register</a>
+            <a href="/login">Log In</a>
+        </div>
+    </div>
+</nav>
+
+<div class="apology">
+    <h1>Ooops... Something went <span style="color: red;">WRONG</span>. <br> {{message}}</h1>
+</div>
+
+{%endblock%}

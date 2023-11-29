@@ -1,0 +1,26 @@
+{% extends "layout.html" %} {% block body%}
+<nav class="nav">
+    <div class="nav__row">
+        <div class="nav__logo">
+            <a class="nav__link-menu" href="/">Finan<span style="color: green">$</span>e</a>
+        </div>
+        <div class="nav__possibilities">
+            <a class="nav__possibility-item" href="/quote">Quote</a>
+            <a class="nav__possibility-item" href="/buy">Buy</a>
+            <a class="nav__possibility-item" href="#">Sell</a>
+            <a class="nav__possibility-item" href="#">History</a>
+        </div>
+        <div class="nav__options">
+            <h1>Hi, {{userdata[0][1]}}!</h1>
+            <a href="/logout">Log out</a>
+        </div>
+    </div>
+</nav>
+
+<div class="quote">
+    <form class="quote__form" action="/quote" method="post">
+        <input class="form-control" type="text" name="symbol" />
+        <button class="btn btn-primary" type="submit">Quote</button>
+    </form>
+</div>
+{%endblock%}

@@ -1,0 +1,88 @@
+{% extends "layout.html"%}
+
+{%block body%}
+<nav class="nav">
+    <div class="nav__row">
+        <div class="nav__logo"><a class="nav__link-menu" href="/">Finan<span style="color: green;">$</span>e</a></div>
+        <div class="nav__possibilities">
+            <a class="nav__possibility-item" href="/quote">Quote</a>
+            <a class="nav__possibility-item" href="/buy">Buy</a>
+            <a class="nav__possibility-item" href="#">Sell</a>
+            <a class="nav__possibility-item" href="#">History</a>
+        </div>
+
+        <div class="nav__options">
+            <h1>Hi, {{userdata[0][1]}}!</h1>
+            <a href="/logout">Log out</a>
+        </div>
+    </div>
+</nav>
+
+<main class="user__shares">
+    <!-- <h1>SHARES {{shares}}</h1> -->
+    <!-- <h2>CHECK {{check}}</h2> -->
+    <!-- <h2>{{userdata[0][4]}}</h2> -->
+
+  
+    <table class="user__table">
+        <tr>
+            <th>Time</th>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Shares</th>
+            <th>Price</th>
+            <th>TOTAL</th>
+        </tr>
+        {% for x in shares %}
+        <tr>
+            <!-- <td>time {{x.split("%")[0]}}</td>
+            <td>symbol {{x.split(" ")[1]}}</td>
+            <td>name {{x.split("!")[1]}}</td>
+            <td>shares {{x.split("?")[1]}}</td>
+            <td>price ${{x.split("/")[1]}}</td>
+            <td>total ${{x.split(" ")[6]}}</td> -->
+            <td> {{x.split("%")[1]}}</td>
+            <td> {{x.split(" ")[3]}}</td>
+            <td> {{x.split("!")[1]}}</td>
+            <td> {{x.split("?")[1]}}</td>
+            <td>${{x.split("/")[1]}}</td>
+            <td>${{x.split("^")[1]}}</td>
+        </tr>
+        {%endfor%}
+        <!-- <tr>
+            <td>10.07.23 13:56</td>
+            <td>AAPL</td>
+            <td>Apple INC</td>
+            <td>5</td>
+            <td>$250</td>
+            <td>$1188</td>
+        </tr>
+        <tr>
+            <td>10.07.23 13:56</td>
+            <td>AAPL</td>
+            <td>Apple INC</td>
+            <td>5</td>
+            <td>$250</td>
+            <td>$1188</td>
+        </tr> -->
+        <tr>
+            <td>-</td>
+            <td>CASH</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>${{cash}}</td>
+        </tr>        
+        <tr>
+            <td>-</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{moneyOfAllShares}}</td>
+        </tr>
+    </table>
+
+    <!-- <h2>{{userdata[0][3]}}</h2> -->
+</main>
+{%endblock%}

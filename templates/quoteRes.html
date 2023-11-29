@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block body%}
+<nav class="nav">
+    <div class="nav__row">
+        <div class="nav__logo"><a class="nav__link-menu" href="/">Finan<span style="color: green;">$</span>e</a></div>
+        <div class="nav__possibilities">
+            <a class="nav__possibility-item" href="/quote">Quote</a>
+            <a class="nav__possibility-item" href="/buy">Buy</a>
+            <a class="nav__possibility-item" href="#">Sell</a>
+            <a class="nav__possibility-item" href="#">History</a>
+        </div>
+        <div class="nav__options">
+            <h1>Hi, {{userdata[0][1]}}!</h1>
+            <a href="/logout">Log out</a>
+        </div>
+    </div>
+</nav>
+
+<main class="main__quote">
+    <h2>A share of {{name}}. ({{symbol}}) costs ${{price}}</h2>
+</main>
+{% endblock%}

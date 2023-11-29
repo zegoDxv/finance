@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{%block body%}
+{{rows}}
+<ul>
+
+    <li>{{rows[0][0]}}</li>
+
+    {% for row in rows%}
+    <li>{{row}}</li>
+    {% endfor%}
+</ul>
+{% endblock %}
