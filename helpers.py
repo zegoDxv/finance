@@ -33,7 +33,7 @@ def lookup(symbol):
 
     # Contact API
     try:
-        api_key = "pk_98f08d8b997d485b849b5f476de816d1"
+        api_key = "pk_d31d365a0c5943c6834e435023f5f521"
         # response = requests.get(f"https://api.iex.cloud/v1/data/core/quote/{symbol}?token={api_key}")
         response = requests.get(f"https://api.iex.cloud/v1/data/core/quote/{symbol}?token={api_key}")
     except requests.RequestException:

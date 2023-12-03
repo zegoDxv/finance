@@ -1,5 +1,4 @@
-{% extends "layout.html"%}
-
+{% extends "layout.html" %}
 
 {% block body%}
 <nav class="nav">
@@ -20,11 +19,19 @@
     </div>
 </nav>
 
-<div class="buy">
-    <form class="buy__form" action="/buy" method="post">
-        <input class="form-control" type="text" name="shareName" />
-        <input class="form-control" type="number" name="shareCount" />
-        <button class="btn btn-primary" type="submit">Buy</button>
+<h2>{{shares}}</h2>
+
+<div class="sell">
+    <form action="/sell" class="sell__form" method="post">
+        <select class="select__shares form-select" name="shares">
+            <option selected>Please, choose your shares</option>
+            {% for x in shares%}
+            <option value="{{ x }}">{{x.split("%")[1]}},{{x.split("!")[1]}},{{x.split(" ")[3]}},{{x.split("?")[1]}},${{x.split("/")[1]}}</option>
+            {% endfor %}
+            <!-- shares cycle -->
+        </select>
+        <input class="form-control sell__count" type="number" name="sellCount">
+        <button type="submit" class="btn btn-primary btn-sell">Sell</button>
     </form>
 </div>
 {%endblock%}

@@ -100,7 +100,7 @@ def index():
         # for share in c:
         #     resUserFilteredShares.append(share)
         # return render_template("main.html", userdata=userdata, cash=userCash, shares= resUserFilteredShares)
-        
+
 @app.route("/logout")
 def logout():
     session.clear()
@@ -225,4 +225,71 @@ def buy():
         cur.execute("UPDATE user SET cash = :cash, shares = :shares WHERE id = :id", data)
         con.commit()
         return redirect("/")
+
+@app.route("/sell", methods=["GET", "POST"])
+@login_required
+def sell():
+    # connecting the database
+    con = sqlite3.connect("finance.db")
+    cur = con.cursor()
+    id = session["user_id"]
+    userData = cur.execute("SELECT * FROM user WHERE id = :id", [id]).fetchall()
+    userShares = userData[0][4]
+
+    #loading the page
+    if request.method == "GET":
+        userShares = [userData[0][4]]
+        userFilteredShares = userShares[0].split(",")
+
+        return render_template("sell.html", userdata= userData, shares = userFilteredShares)
+    
+    else:
+        sellCount = request.form.get("sellCount")
+        # If the user wrote the correct value of the shares 
+        if sellCount == "" or int(sellCount) < 1:
+            return render_template("apology.html", message="You have written the wrong number of shares!", userdata = userData)
+
+
+        selectedShare = request.form.get("shares")
         
+        if selectedShare == "Please, choose your shares":
+            render_template("apology.html", message="You have chosen the share!", userdata = userData)
+
+        selectedShareSymbol = selectedShare.split(" ")[3]
+        selectedShareCount = selectedShare.split("?")[1]
+        # sueta = int(selectedShareCount) - int(sellCount)
+        # return render_template("info.html", check = sueta)
+        
+        # If user want sell more shares than he has & How many shares are left after the sale
+        newCountOfShares = int(selectedShareCount) - int(sellCount)
+        if newCountOfShares < 0:
+            return render_template("apology.html", message="You can't sell more shares than you have", userdata = userData)
+        
+        # Checking how much share is cost right now
+        dataOfSymbol = lookup(selectedShareSymbol)
+        price = dataOfSymbol["price"]
+  
+        # Calculating how much money the user will have after the sell
+        userCash = userData[0][3]
+        moneyFromSoldShares = float(price) * int(sellCount)
+        currentCountOfMoney = userCash + moneyFromSoldShares
+
+        # Creating var which hold the edited count of share
+        changedCountOfShares = selectedShare.replace(f"?{selectedShareCount}?", f"?{newCountOfShares}?")
+        newShareData = userShares.replace(selectedShare, changedCountOfShares)
+
+        # Adding the edited share to database
+        changeDbShares = {"cash": currentCountOfMoney, "shares": newShareData}
+        
+        
+        # userSharesSplitted = userShares.split(",")
+        # for share in userSharesSplitted:
+        #     if share == f" {selectedShare}":
+        #        return
+
+        # return render_template("info.html", check = changeDbShares, something = userShares)
+    
+        cur.execute("UPDATE user SET cash = :cash, shares = :shares", changeDbShares)
+        con.commit()
+        return redirect("/")
+    
