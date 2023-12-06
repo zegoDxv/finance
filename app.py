@@ -216,14 +216,20 @@ def buy():
         cash = userdata[0][3]
         totalCostOfShares = (float(shareCost) * float(shareCount))
         remainingMoney = float(cash) - totalCostOfShares
-        timeOfBuyingOfShare = datetime.datetime.now()
+        timeOfBuyingOfShare = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
+        # adding shares which has been purchased to the our db
         previousDataShares = userdata[0][4]
         data = {"cash": remainingMoney, "shares": f"{previousDataShares}, %{timeOfBuyingOfShare}% {shareSym} !{symdata["name"]}! ?{shareCount}? /{shareCost}/ ^{totalCostOfShares}^", "id": id}
-        
-        # cur.execute("INSERT INTO user(cash, shares) WHERE id = :id VALUES (:cash, :shares)", data)
         cur.execute("UPDATE user SET cash = :cash, shares = :shares WHERE id = :id", data)
         con.commit()
+        
+        # adding info about purchased share to the db
+        previousDataOfHistory = userdata[0][5]
+        dataHistory = {"history": f"{previousDataOfHistory}, &{shareSym}& ?+{shareCount}? *-{totalCostOfShares}* !{timeOfBuyingOfShare}!", "id": id}
+        cur.execute("UPDATE user SET history = :history WHERE id = :id", dataHistory)
+        con.commit()
+
         return redirect("/")
 
 @app.route("/sell", methods=["GET", "POST"])
@@ -291,5 +297,27 @@ def sell():
     
         cur.execute("UPDATE user SET cash = :cash, shares = :shares", changeDbShares)
         con.commit()
+
+        # adding info about purchased share to the db
+        timeOfSellingShare = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        previousDataOfHistory = userData[0][5]
+        dataHistory = {"history": f"{previousDataOfHistory}, &{selectedShareSymbol}& ?-{selectedShareCount}? *+{moneyFromSoldShares}* !{timeOfSellingShare}!", "id": id}
+        cur.execute("UPDATE user SET history = :history WHERE id = :id", dataHistory)
+        con.commit()
+
+
         return redirect("/")
+
+@app.route("/history")
+@login_required
+def history():
+
+    con = sqlite3.connect("finance.db")
+    cur = con.cursor()
+
+    id = session["user_id"]
+    userData = cur.execute("SELECT * FROM user WHERE id = :id", [id]).fetchall()
+    dataOfHistory = userData[0][5].split(",")
+
+    return render_template("history.html", history = dataOfHistory, userdata = userData)
     

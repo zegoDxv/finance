@@ -59,3 +59,5 @@ def lookup(symbol):
     # url = f"https://api.iex.cloud/v1/data/core/quote/{symbol}?token={api_key}"
     # response = requests.get(url)
     # return response.json()
+
+
